@@ -1,49 +1,50 @@
 package ru.samsung.itschool.mdev;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        // Maps - словари
-        // key => value
 
-        Map<String,String> countries = new HashMap<>();
-        countries.put("first","Russia");
-        countries.put("third","Germany");
-        countries.put("five","Finland");
-        countries.put("four","France");
-
-        String value = countries.get("four");
-        for(Map.Entry<String,String> obj: countries.entrySet()) {
-            System.out.println(obj.getKey() + "; "+obj.getValue());
-        }
-
-        // countries.containsKey()
-        //countries.containsValue()
-        class User {
-            private String name;
-            private int age;
-
-            public User(String name, int age) {
-                this.name = name;
-                this.age = age;
+        TreeMap<String,TreeMap<String,Integer>> shop
+                = new TreeMap<>();
+        Scanner scanner = new Scanner(System.in);
+        String line;
+       // for(int i=0;i<6;i++){
+            while(scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            String words[] = line.split(" ");
+            // 0 - Ivanov 1 - paper 2 - 10
+            TreeMap<String, Integer> inner = new TreeMap<>();
+            if (shop.containsKey(words[0])) {
+                if (shop.get(words[0]).containsKey(words[1])) {
+                    inner = shop.get(words[0]);
+                    inner.put(words[1], inner.get(words[1]) + Integer.parseInt(words[2]));
+                    shop.put(words[0], inner);
+                } else {
+                    inner = shop.get(words[0]);
+                    inner.put(words[1], Integer.parseInt(words[2]));
+                    shop.put(words[0], inner);
+                }
+            } else {
+                inner.put(words[1], Integer.parseInt(words[2]));
+                shop.put(words[0], inner);
             }
         }
 
-        TreeMap<Integer, User> treeMap = new TreeMap<>();
-        treeMap.put(1, new User("Ivan",20));
-        treeMap.put(1, new User("Ivan",20));
-        treeMap.put(2, new User("Petr",21));
-        treeMap.put(2, new User("Petr",21));
-
-        
-
-        for(Map.Entry<Integer,User> u: treeMap.entrySet()) {
-            System.out.println(u.getKey() + "; "+u.getValue().name);
+        for(Map.Entry<String,TreeMap<String,Integer>> entry: shop.entrySet()) {
+            System.out.println(entry.getKey() + ": ");
+            for(Map.Entry<String,Integer> entry2: entry.getValue().entrySet()) {
+                System.out.println(entry2.getKey() + " " + entry2.getValue());
+            }
         }
+
+
+
+
+
+
+
 
     }
 }
